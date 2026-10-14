@@ -1,0 +1,260 @@
+/* ============================================================
+   UX polish pass — loaded last so it refines earlier styles.
+   ============================================================ */
+
+/* --- Circular/icon buttons: cleaner, consistent, calmer hover --- */
+.btn-icon,
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px; /* never let the header squeeze them */
+  border-radius: var(--r-md); /* rounded-square reads more modern than a full circle */
+  background: var(--surface-glass);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  box-shadow: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.btn-icon > svg,
+.theme-toggle-btn > svg { flex: 0 0 auto; }
+.btn-icon-label { flex-shrink: 0; }
+.btn-icon:hover,
+.theme-toggle-btn:hover {
+  background: color-mix(in oklch, var(--primary-accent) 14%, transparent);
+  border-color: var(--border-glow);
+  color: var(--text-main);
+  transform: none; /* drop the jarring scale-up */
+}
+
+/* --- Chat send button: square + icon centered on both axes (was baseline-aligned in a wide pill) --- */
+.chat-input-row .btn-primary {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Native selects: custom chevron with real RTL breathing room --- */
+.theory-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--surface-glass);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 0.85rem center; /* RTL: chevron on the left, away from the edge */
+  background-size: 15px;
+  padding-inline-end: 2.5rem; /* room so the label never touches the chevron */
+  padding-inline-start: 1rem;
+}
+/* background-position has no logical keywords — the one [dir] override needed. */
+[dir='ltr'] .theory-select {
+  background-position: right 0.85rem center;
+}
+
+/* --- Header: a little more room to breathe --- */
+.portal-header {
+  padding: 1rem 2rem;
+}
+.header-actions {
+  gap: 0.5rem;
+}
+.subject-selector-wrapper {
+  gap: 0.5rem;
+}
+
+/* Header dropdown: match the 40px control height so the row aligns cleanly */
+.subject-header-select {
+  height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* API-key pill: match the icon-button height + corner radius so the row aligns */
+.btn-icon-label {
+  height: 40px;
+  border-radius: var(--r-md);
+  padding: 0 1rem;
+}
+
+/* --- Popover: softer, roomier --- */
+.api-popover {
+  border-radius: var(--r-lg);
+  padding: 1rem;
+  box-shadow: 0 16px 40px -12px oklch(0.15 0.04 265 / 0.55);
+}
+
+/* --- Bento tiles: a touch more internal padding + the soft colored shadow --- */
+.bento-tile {
+  box-shadow: var(--shadow-card);
+}
+.bento-tile:hover {
+  transform: translateY(-3px);
+}
+
+/* --- Sidebar nav: clearer active state + gap --- */
+.portal-nav {
+  gap: 0.25rem;
+}
+.nav-item {
+  border-radius: var(--r-md);
+}
+.nav-item.active {
+  box-shadow: 0 6px 18px -6px color-mix(in oklch, var(--primary-accent) 55%, transparent);
+}
+
+/* --- Empty-state cards: center + breathe (e.g. the exam-history card) --- */
+.empty-scores {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  padding: 0.5rem 0;
+}
+.empty-scores svg {
+  color: var(--text-faint, var(--text-muted));
+}
+
+/* ============================================================
+   Professional polish (deep-research backed): weight-based
+   hierarchy, layered elevation over borders, real focus states.
+   ============================================================ */
+
+/* Typography — hierarchy driven by WEIGHT + size, dimmer supporting text */
+.portal-header h1 { font-weight: var(--fw-heavy); letter-spacing: -0.015em; }
+.view-intro h2 { font-weight: var(--fw-heavy); letter-spacing: -0.01em; font-size: var(--fs-h2); line-height: var(--lh-h2); margin-bottom: var(--sp-1); }
+.view-intro p { color: var(--text-muted); font-size: var(--fs-body); line-height: var(--lh-body); max-width: 62ch; }
+.subject-section-card h2, .exam-status-header h3, .loader-card h3, .progress-card-detail h3,
+.leitner-tile h3, .scores-tile h3, .ai-quick-tile h3, .hero-content h3, .streak-details h3,
+.shop-buy-action h3, .deck-builder-head h3, .rv-term {
+  font-weight: var(--fw-bold); letter-spacing: -0.006em;
+}
+h4, h5 { font-weight: var(--fw-semibold); }
+
+/* Headings use off-white, never pure white (avoids halation on the dark canvas) */
+.portal-main-pane :is(h1, h2, h3, h4, h5),
+.portal-header h1,
+.card-front h2 { color: var(--text-main); }
+
+/* Surfaces — near-solid elevation, hairline border, layered shadow, no muddy glass */
+.bento-tile, .subject-section-card, .loader-card, .exam-setup-card, .exam-active-card,
+.ai-answer-card, .ai-evaluation-results, .progress-card-detail, .plan-setup-card,
+.flashcards-controls, .rv-card, .deck-builder-card, .plan-day-card, .exam-question-card,
+.ai-setup-card, .ai-question-card {
+  background: var(--elev-1);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.bento-tile:hover { box-shadow: var(--shadow-2); border-color: var(--hairline-strong); }
+
+/* Nested chips/rows: hairline only, no heavy boxes */
+.bento-score-item, .score-record-item, .subject-checkbox-item, .file-chip,
+.points-display, .badge-count { border-color: var(--hairline); }
+
+/* Remove decorative colored top/side border accents (a specific vibe-coded tell) */
+.card-front { border-top: none; }
+.hero-tile { background: linear-gradient(150deg, var(--elev-2), var(--elev-1)); }
+
+/* Real interaction states — focus-visible only; hover/active carry MORE contrast */
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible { outline: 2px solid var(--primary-accent); outline-offset: 2px; border-radius: var(--r-sm); }
+.btn:hover:not(:disabled), .option-btn:hover:not(:disabled) { filter: brightness(1.08); }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+
+/* Sidebar + header: solid elevation, hairline dividers */
+.portal-sidebar { background: var(--elev-1); border-color: var(--hairline); box-shadow: var(--shadow-1); }
+/* Sticky header with a high stacking context so its popovers sit ABOVE the tiles */
+.portal-header {
+  background: oklch(0.185 0.014 265 / 0.9);
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+body.light-theme .portal-header { background: oklch(1 0 0 / 0.9); }
+
+/* Transparent full-screen backdrop → click anywhere outside closes the popover */
+.popover-backdrop { position: fixed; inset: 0; z-index: 150; background: transparent; }
+
+/* Custom dropdown (replaces the ugly native <select>) */
+.dd-trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2);
+  height: 40px; padding: 0 var(--sp-3); border-radius: var(--r-md);
+  background: var(--elev-2); border: 1px solid var(--hairline); color: var(--text-main);
+  font-family: inherit; font-size: var(--fs-body); font-weight: var(--fw-medium); cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.dd-trigger:hover { border-color: var(--hairline-strong); background: var(--elev-3); }
+.dd-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dd-chevron { color: var(--text-muted); transition: transform .15s ease; flex-shrink: 0; }
+.dd-menu {
+  /* Positioning (position/top/left/min-width/max-height) is applied inline from
+     Dropdown.tsx, which portals this menu to <body> with viewport-clamped fixed
+     coordinates. Only visual styling lives here. */
+  background: var(--elev-3); border: 1px solid var(--hairline); border-radius: var(--r-md);
+  box-shadow: var(--shadow-3); padding: var(--sp-1); z-index: 200;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.dd-item {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2);
+  text-align: start; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); border: none; background: transparent;
+  color: var(--text-main); font-family: inherit; font-size: var(--fs-body); cursor: pointer; white-space: nowrap;
+}
+.dd-item:hover { background: color-mix(in oklch, var(--primary-accent) 15%, transparent); }
+.dd-item.active { background: color-mix(in oklch, var(--primary-accent) 22%, transparent); font-weight: var(--fw-semibold); }
+.dd-item > svg { color: var(--primary-accent); flex-shrink: 0; }
+
+/* Settings popover sits above the backdrop */
+.subject-manager-popover, .api-popover { z-index: 200; }
+
+/* On-grid spacing — snap the off-grid layout values to the 8pt scale */
+.view-intro { margin-bottom: var(--sp-6); }              /* 24 (was 28.8) */
+.btn { padding: var(--sp-2) var(--sp-5); }               /* 8 / 20 (was 10.4/22.4) */
+.nav-item { padding: var(--sp-2) var(--sp-3); gap: var(--sp-3); } /* 8 / 12 / 12 */
+.portal-sidebar { padding: var(--sp-4) var(--sp-3); }    /* 16 / 12 */
+.portal-sidebar h3 { margin: 0 var(--sp-2) var(--sp-4); padding-bottom: var(--sp-2); }
+.filter-bar { gap: var(--sp-3); margin-bottom: var(--sp-4); }
+.leitner-bar-group { gap: var(--sp-3); }
+.setup-group, .plan-date-group { gap: var(--sp-2); }
+
+/* --- Narrow screens: the sidebar becomes a horizontal, swipeable nav strip
+   (instead of a 9-item column every page has to scroll past). --- */
+@media (max-width: 900px) {
+  /* minmax(0,…): a plain 1fr track can't shrink below its content's min width,
+     so the no-wrap nav strip would stretch the whole page sideways. */
+  .portal-workspace { grid-template-columns: minmax(0, 1fr); width: 100%; padding: 0 var(--sp-3); margin: var(--sp-4) auto; gap: var(--sp-4); }
+  .portal-sidebar { padding: var(--sp-2); }
+  .portal-sidebar h3 { display: none; }
+  .portal-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+  .portal-nav::-webkit-scrollbar { display: none; }
+  .nav-item { flex: 0 0 auto; white-space: nowrap; scroll-snap-align: start; padding: var(--sp-2) var(--sp-3); }
+}
+
+/* Same min-content trap for the materials panels (long file names, dropdowns). */
+.loader-workspace-panels { grid-template-columns: minmax(0, 1fr); }
+
+/* --- Phones: compact, non-sticky header (a sticky 300px header would cover a third of the screen) --- */
+@media (max-width: 600px) {
+  .filter-bar { flex-wrap: wrap; }
+  .filter-bar .search-input-wrapper { flex: 1 1 100%; }
+  .loader-card { padding: var(--sp-4); }
+  .material-row { flex-wrap: wrap; }
+  .material-row .material-name { flex-basis: 100%; }
+  .portal-header { position: static; padding: var(--sp-3) var(--sp-4); gap: var(--sp-3); }
+  .portal-header .header-info { gap: var(--sp-3); min-width: 0; max-width: 100%; }
+  .portal-header .icon-main { width: 32px; height: 32px; flex-shrink: 0; }
+  .portal-header h1 { font-size: 1.15rem; line-height: 1.3; }
+  .portal-header .subtitle { display: none; }
+}

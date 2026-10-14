@@ -1,0 +1,78 @@
+/* FSRS review session — reuses the app's CSS variables so it themes automatically. */
+.rv-wrap { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; margin-top: 0.5rem; }
+
+.rv-toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  width: 100%; max-width: 560px; flex-wrap: wrap;
+}
+.rv-modes { display: inline-flex; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.rv-mode-btn {
+  background: transparent; border: none; color: var(--text-muted);
+  font-family: inherit; font-size: 0.85rem; font-weight: 600; padding: 0.5rem 1rem; cursor: pointer;
+}
+.rv-mode-btn.active { background: var(--primary-accent); color: #fff; }
+.rv-progress { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+.rv-progress .rv-due { color: var(--secondary-accent); }
+
+.rv-card {
+  width: 100%; max-width: 560px; min-height: 300px;
+  background: var(--surface-glass); border: 1px solid var(--border);
+  border-top: 6px solid var(--primary-accent);
+  border-radius: var(--r-xl); box-shadow: var(--shadow);
+  padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem;
+}
+.rv-cat { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); }
+.rv-prompt-label { font-size: 0.8rem; color: var(--text-muted); }
+.rv-term { font-size: 1.7rem; font-weight: 800; color: var(--text-main); margin: 0.25rem 0; line-height: 1.3; }
+.rv-def { font-size: 1.05rem; line-height: 1.7; color: var(--text-main); }
+.rv-divider { height: 1px; background: var(--border); margin: 0.25rem 0; }
+
+.rv-confidence { display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+.rv-confidence .rv-c-label { font-size: 0.85rem; color: var(--text-muted); }
+.rv-c-row { display: flex; gap: 0.5rem; }
+.rv-c-btn {
+  flex: 1; padding: 0.5rem 0; border-radius: var(--r-md); border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03); color: var(--text-main); font-family: inherit;
+  font-weight: 700; cursor: pointer; transition: all 0.15s ease;
+}
+.rv-c-btn:hover { border-color: var(--primary-accent); background: rgba(99,102,241,0.12); }
+.rv-reveal-btn { margin-top: 0.5rem; }
+
+.rv-grades { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: auto; }
+.rv-grade {
+  display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+  padding: 0.5rem 0.25rem; border-radius: var(--r-md); border: 0 solid; cursor: pointer;
+  background: transparent; font-family: inherit; transition: all 0.15s ease;
+}
+.rv-grade .rv-iv { font-size: 0.72rem; font-family: ui-monospace, monospace; opacity: 0.85; }
+.rv-grade .rv-lb { font-size: 0.9rem; font-weight: 700; }
+.rv-grade.again { border-color: rgba(239,68,68,0.5); color: #f87171; }
+.rv-grade.again:hover { background: rgba(239,68,68,0.14); }
+.rv-grade.hard { border-color: rgba(245,158,11,0.5); color: #fbbf24; }
+.rv-grade.hard:hover { background: rgba(245,158,11,0.14); }
+.rv-grade.good { border-color: rgba(99,102,241,0.6); color: #a5b4fc; }
+.rv-grade.good:hover { background: rgba(99,102,241,0.16); }
+.rv-grade.easy { border-color: rgba(16,185,129,0.5); color: #34d399; }
+.rv-grade.easy:hover { background: rgba(16,185,129,0.14); }
+.rv-grade.suggested { box-shadow: 0 0 0 2px currentColor inset; }
+.rv-grade:disabled { opacity: 0.5; cursor: wait; }
+.rv-save-error { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.85rem; color: var(--danger); }
+
+.rv-recall-input {
+  width: 100%; padding: 0.75rem 1rem; border-radius: var(--r-md); border: 1px solid var(--border);
+  background: rgba(15,23,42,0.5); color: var(--text-main); font-family: inherit; font-size: 1.05rem;
+  outline: none;
+}
+.rv-recall-input:focus { border-color: var(--primary-accent); }
+.rv-match { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 600; }
+.rv-match.exact, .rv-match.close { color: var(--success); }
+.rv-match.miss { color: var(--danger); }
+.rv-answer { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+
+.rv-empty, .rv-done {
+  width: 100%; max-width: 560px; text-align: center; padding: 2.5rem 1.5rem;
+  background: var(--surface-glass); border: 1px solid var(--border); border-radius: var(--r-xl); box-shadow: var(--shadow);
+}
+.rv-done .rv-done-num { font-size: 2.6rem; font-weight: 800; color: var(--success); }
+.rv-done h3 { margin: 0.5rem 0; color: var(--text-main); }
+.rv-done p, .rv-empty p { color: var(--text-muted); margin: 0.25rem 0 1rem; }

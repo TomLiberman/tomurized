@@ -1,0 +1,19 @@
+# docker compose up -d   →   http://localhost:8080
+services:
+  tomurized:
+    build: .
+    image: tomurized:latest
+    container_name: tomurized
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      # Courses, progress and uploaded files. Back this up (or use the in-app backup).
+      - tomurized-data:/data
+    # Optional:
+    # environment:
+    #   MAX_UPLOAD_MB: "100"     # largest single upload / request
+    #   MAX_RESTORE_MB: "1024"   # largest backup file accepted by "Restore backup"
+
+volumes:
+  tomurized-data:

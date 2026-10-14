@@ -1,0 +1,23 @@
+/* Tailwind v4 — utilities + theme only (NO preflight), so it coexists with the
+   existing App.css without resetting it. New components use these utilities. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --color-bg: oklch(0.17 0.012 265);
+  --color-surface: oklch(0.225 0.016 265);
+  --color-surface-2: oklch(0.26 0.018 265);
+  --color-text: oklch(0.93 0.008 265);
+  --color-muted: oklch(0.74 0.015 265);
+  --color-primary: oklch(0.66 0.16 274);
+  --color-teal: oklch(0.74 0.12 188);
+  --color-amber: oklch(0.8 0.14 78);
+  --color-rose: oklch(0.64 0.19 22);
+
+  --font-body: 'Heebo Variable', 'Assistant', system-ui, sans-serif;
+  --font-display: 'Frank Ruhl Libre Variable', Georgia, serif;
+
+  --radius-card: 16px;
+  --radius-control: 10px;
+}

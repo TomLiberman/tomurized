@@ -1,0 +1,31 @@
+# Dependencies & builds
+node_modules
+dist
+dist-ssr
+*.local
+
+# Local data (SQLite database + uploaded files) — created by `npm run dev` / `npm start`.
+# Anchored with "/" — an unanchored "data/" would also ignore src/data (app code).
+/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Local secrets
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            server/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix server
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  docker:
+    name: Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: docker build -t tomurized:ci .
+      - name: Smoke test
+        run: |
+          docker run -d --name tomurized -p 8080:8080 tomurized:ci
+          for i in $(seq 1 30); do
+            if curl -fs http://localhost:8080/api/health; then break; fi
+            sleep 1
+          done
+          echo
+          curl -fs http://localhost:8080/api/health | grep -q '"ok":true'
+          curl -fs http://localhost:8080/ | grep -q 'id="root"'
+          curl -fs -X POST http://localhost:8080/api/subjects \
+            -H 'Content-Type: application/json' -d '{"name":"CI course"}' | grep -q '"name":"CI course"'
+      - name: Container logs
+        if: always()
+        run: docker logs tomurized || true

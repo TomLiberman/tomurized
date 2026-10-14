@@ -1,0 +1,104 @@
+/* Self-hosted variable font — ONE humanist family for Hebrew + Latin (Heebo's
+   Latin is Roboto), so headings and body stay cohesive and Latin never falls to
+   a serif's weak secondary glyphs. Hierarchy comes from weight, not a second font. */
+@import '@fontsource-variable/heebo';
+
+/* =========================================================================
+   Tomurized — "calm deep-work" design tokens (OKLCH), dark-first.
+   Remaps the app's existing CSS-variable names to the new palette so every
+   component re-skins without markup changes. Imported AFTER App.css so the
+   dark :root values here win; light mode still uses App.css's overrides.
+   ========================================================================= */
+
+:root {
+  color-scheme: dark;
+
+  --font-body: 'Heebo Variable', 'Assistant', system-ui, sans-serif;
+  --font-display: var(--font-body); /* same family; hierarchy via weight */
+
+  /* 8pt spacing scale (multiples of 4) — the #1 professional-vs-amateur signal */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+
+  /* Radius ladder — one intentional scale (kills the 3/4/5/6/10/14/18px sprawl).
+     xs = bars/chips · sm = buttons/small controls · md = inputs/controls/nested ·
+     lg = cards/tiles · xl = large feature cards · pill = fully-round. */
+  --r-xs: 4px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px; --r-pill: 999px;
+
+  /* One visible, consistent keyboard-focus treatment (offset ring, theme-aware) */
+  --focus-ring: 0 0 0 2px var(--bg-color), 0 0 0 4px oklch(0.7 0.15 274 / 0.65);
+
+  /* Type scale — line-heights all divisible by 4 (baseline rhythm) */
+  --fs-caption: 0.75rem;  --lh-caption: 16px;
+  --fs-sm: 0.8125rem;     --lh-sm: 20px;
+  --fs-body: 0.9375rem;   --lh-body: 24px;
+  --fs-lg: 1.0625rem;     --lh-lg: 28px;
+  --fs-h3: 1.1875rem;     --lh-h3: 28px;
+  --fs-h2: 1.5rem;        --lh-h2: 36px;
+  --fs-h1: 1.875rem;      --lh-h1: 40px;
+  --fw-body: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-heavy: 800;
+
+  /* Elevation surfaces — stepped OKLCH lightness (Linear-style), less border reliance */
+  --elev-0: oklch(0.17 0.012 265);
+  --elev-1: oklch(0.205 0.015 265);
+  --elev-2: oklch(0.235 0.016 265);
+  --elev-3: oklch(0.275 0.018 265);
+  --hairline: oklch(0.99 0.01 265 / 0.07);   /* semi-transparent border */
+  --hairline-strong: oklch(0.99 0.01 265 / 0.12);
+
+  /* Layered shadows (ambient + direct), not one flat drop */
+  --shadow-1: 0 1px 2px oklch(0.1 0.02 265 / 0.4), 0 1px 1px oklch(0.1 0.02 265 / 0.3);
+  --shadow-2: 0 2px 4px oklch(0.1 0.02 265 / 0.35), 0 6px 16px -4px oklch(0.1 0.02 265 / 0.45);
+  --shadow-3: 0 4px 8px oklch(0.1 0.02 265 / 0.4), 0 16px 40px -8px oklch(0.1 0.03 265 / 0.55);
+
+  /* Surfaces & text (dark) */
+  --bg-color: oklch(0.17 0.012 265);            /* #0E1116 blue-black */
+  --surface-bg: oklch(0.205 0.015 265 / 0.5);
+  --surface-glass: oklch(0.205 0.015 265 / 0.92); /* near-solid elevation, not muddy glass */
+  --text-main: oklch(0.93 0.008 265);           /* #E6E9EF — never pure white */
+  --text-muted: oklch(0.74 0.015 265);          /* #A6B0BF */
+
+  /* Accents — indigo (CTA), teal (mastered/correct), amber (streak) */
+  --primary: oklch(0.55 0.17 274);
+  --primary-accent: oklch(0.66 0.16 274);       /* #6C74F0 */
+  --primary-fg: oklch(0.99 0.01 274);           /* text/icon on a primary-colored surface */
+  --secondary-accent: oklch(0.74 0.12 188);     /* #2FB6B0 teal */
+
+  --border: var(--hairline);          /* semi-transparent hairline, borders recede */
+  --border-glow: oklch(0.66 0.16 274 / 0.35);
+
+  /* Layered shadows (ambient + direct) for real depth */
+  --shadow: var(--shadow-2);
+  --shadow-inset: inset 0 1px 0 0 oklch(1 0 0 / 0.04);
+  --shadow-card: var(--shadow-2);
+
+  --success: oklch(0.74 0.13 168);
+  --success-glow: oklch(0.74 0.13 168 / 0.18);
+  --warning: oklch(0.8 0.14 78);                /* amber */
+  --warning-glow: oklch(0.8 0.14 78 / 0.18);
+  --danger: oklch(0.64 0.19 22);
+  --danger-glow: oklch(0.64 0.19 22 / 0.18);
+}
+
+/* Base typography + a single calm background glow (not two competing orbs) */
+body {
+  font-family: var(--font-body);
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  background-image: radial-gradient(120% 85% at 100% 0%, oklch(0.66 0.16 274 / 0.1) 0, transparent 55%);
+  background-attachment: fixed;
+  line-height: 1.75;
+}
+
+/* Display serif for the big headings + card terms (Hebrew + Latin) */
+.view-intro h2,
+.subject-section-card h2,
+.subject-header h2,
+.hero-content h3,
+.rv-term {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* RTL type hygiene: tight tracking on Latin only, never on Hebrew */
+:lang(en) { letter-spacing: -0.01em; }

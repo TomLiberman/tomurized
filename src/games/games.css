@@ -1,0 +1,791 @@
+/* =========================================================================
+   Study games — hub, shared chrome, and the four game screens.
+   Tokens-only colors (dark/light themes adapt via the variable overrides);
+   drag-related visuals use PHYSICAL directions on purpose (see SwipeRoute).
+   ========================================================================= */
+
+/* --- Hub --- */
+
+.games-hub .games-ai-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-glow);
+  color: var(--primary-accent);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--sp-4);
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-5);
+  background: var(--elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.game-card:not(.disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--border-glow);
+}
+
+.game-card.disabled {
+  opacity: 0.55;
+}
+
+.game-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  background: var(--elev-2);
+  color: var(--primary-accent);
+}
+
+.game-card h3 {
+  margin: 0;
+  font-size: var(--fs-h3);
+  color: var(--text-main);
+}
+
+.game-card-desc {
+  margin: 0;
+  flex: 1;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  color: var(--text-muted);
+}
+
+.game-card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+}
+
+.game-card-meta .best {
+  color: var(--warning);
+  font-weight: var(--fw-semibold);
+}
+
+.game-card-min {
+  font-size: var(--fs-caption);
+  color: var(--danger);
+}
+
+/* --- Shared game chrome --- */
+
+.game-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-width: 860px;
+}
+
+.game-shell-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.game-shell-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.game-shell-back:hover {
+  color: var(--text-main);
+  background: var(--elev-2);
+}
+
+.game-shell-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0;
+  font-size: var(--fs-h2);
+  color: var(--text-main);
+}
+
+.game-shell-hud {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-inline-start: auto;
+}
+
+/* --- Shared question block --- */
+
+.gq-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  background: var(--elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-1);
+}
+
+.gq-prompt {
+  margin: 0;
+  white-space: pre-line;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-lg);
+  color: var(--text-main);
+  font-weight: var(--fw-medium);
+}
+
+.gq-options {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.gq-options .option-btn {
+  color: var(--text-main);
+}
+
+.gq-options .option-btn:disabled {
+  cursor: default;
+}
+
+.gq-ai-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  align-self: flex-start;
+  color: var(--primary-accent);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+}
+
+.gq-explanation {
+  margin: 0;
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--success-glow);
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+}
+
+.gq-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.gq-feedback .verdict {
+  font-weight: var(--fw-bold);
+}
+
+.gq-feedback .verdict.good { color: var(--success); }
+.gq-feedback .verdict.bad { color: var(--danger); }
+
+/* --- Summary screen --- */
+
+.game-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  background: var(--elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: var(--sp-8);
+  text-align: center;
+  box-shadow: var(--shadow-2);
+}
+
+.game-summary-score .num {
+  font-size: 3rem;
+  font-weight: var(--fw-heavy);
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.game-summary-score .lbl {
+  display: block;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.game-summary-newbest {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 4px 14px;
+  border-radius: var(--r-pill);
+  background: var(--warning-glow);
+  color: var(--warning);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-sm);
+}
+
+.game-summary-stats {
+  display: flex;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.game-summary-stats b {
+  color: var(--text-main);
+}
+
+.game-missed {
+  width: 100%;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.game-missed h4 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: var(--fs-body);
+}
+
+.game-missed-item {
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--elev-2);
+  border-inline-start: 3px solid var(--danger);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+}
+
+.game-missed-item b {
+  color: var(--text-main);
+}
+
+.game-missed-item span {
+  color: var(--text-muted);
+}
+
+.game-summary-actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* --- Boss battle --- */
+
+.boss-arena {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.boss-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-lg);
+  background: var(--elev-1);
+  border: 1px solid oklch(0.66 0.16 var(--boss-hue, 274) / 0.4);
+  box-shadow: 0 0 24px oklch(0.66 0.16 var(--boss-hue, 274) / 0.12);
+}
+
+.boss-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  font-size: 2rem;
+  border-radius: var(--r-pill);
+  background: oklch(0.66 0.16 var(--boss-hue, 274) / 0.16);
+  border: 2px solid oklch(0.66 0.16 var(--boss-hue, 274) / 0.5);
+}
+
+.boss-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.boss-info .unit {
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+}
+
+.boss-info h3 {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-h3);
+  color: var(--text-main);
+}
+
+.boss-hp-bar {
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: var(--elev-3);
+  overflow: hidden;
+}
+
+.boss-hp-fill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: oklch(0.66 0.18 var(--boss-hue, 274));
+}
+
+.boss-progress {
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.player-hud {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.hearts {
+  display: flex;
+  gap: var(--sp-1);
+  color: var(--danger);
+}
+
+.hearts .empty {
+  opacity: 0.25;
+}
+
+.streak-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px 10px;
+  border-radius: var(--r-pill);
+  background: var(--warning-glow);
+  color: var(--warning);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.crit-flash {
+  color: var(--warning);
+  font-weight: var(--fw-heavy);
+}
+
+.redemption-card {
+  border-color: var(--danger);
+  box-shadow: 0 0 24px var(--danger-glow);
+}
+
+.redemption-title {
+  margin: 0;
+  color: var(--danger);
+  font-weight: var(--fw-bold);
+}
+
+/* --- Millionaire --- */
+
+.mil-layout {
+  display: grid;
+  grid-template-columns: 1fr 190px;
+  gap: var(--sp-4);
+  align-items: start;
+}
+
+.mil-ladder {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+  background: var(--elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-3);
+}
+
+.mil-rung {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: 4px 10px;
+  border-radius: var(--r-xs);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.mil-rung.passed {
+  color: var(--success);
+}
+
+.mil-rung.current {
+  background: var(--primary);
+  color: var(--primary-fg);
+  font-weight: var(--fw-bold);
+}
+
+.mil-rung.haven {
+  font-weight: var(--fw-semibold);
+  color: var(--warning);
+}
+
+.mil-rung.haven.current {
+  color: var(--primary-fg);
+}
+
+.mil-lifelines {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.lifeline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  border: 1px solid var(--border);
+  background: var(--elev-2);
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.lifeline-btn:hover:not(:disabled) {
+  border-color: var(--border-glow);
+}
+
+.lifeline-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.mil-poll {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--elev-2);
+}
+
+.mil-poll-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-caption);
+  color: var(--text-muted);
+}
+
+.mil-poll-row .opt {
+  flex: 0 0 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mil-poll-track {
+  flex: 1;
+  height: 8px;
+  background: var(--elev-3);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.mil-poll-fill {
+  height: 100%;
+  background: var(--secondary-accent);
+  border-radius: var(--r-pill);
+}
+
+.mil-hint {
+  margin: 0;
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--warning-glow);
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+}
+
+.mil-prize-banner {
+  font-size: var(--fs-lg);
+  color: var(--warning);
+  font-weight: var(--fw-bold);
+}
+
+@media (max-width: 720px) {
+  .mil-layout {
+    grid-template-columns: 1fr;
+  }
+  .mil-ladder {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* --- Memory match --- */
+
+.memory-hud {
+  display: flex;
+  gap: var(--sp-4);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.memory-hud b {
+  color: var(--text-main);
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+}
+
+@media (max-width: 640px) {
+  .memory-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.memory-card {
+  perspective: 800px;
+  cursor: pointer;
+  min-height: 110px;
+}
+
+.memory-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 110px;
+  transform-style: preserve-3d;
+}
+
+.memory-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-2);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  backface-visibility: hidden;
+  text-align: center;
+  overflow: hidden;
+}
+
+.memory-face.back {
+  background: var(--primary);
+  color: var(--primary-fg);
+  font-size: 1.5rem;
+  font-weight: var(--fw-heavy);
+}
+
+.memory-face.front {
+  background: var(--elev-2);
+  color: var(--text-main);
+  transform: rotateY(180deg);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+}
+
+.memory-face.front.term-face {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+}
+
+.memory-card.matched .memory-face.front {
+  border-color: var(--success);
+  background: var(--success-glow);
+}
+
+.memory-toast {
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--success-glow);
+  color: var(--text-main);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+}
+
+/* --- Swipe --- */
+
+.swipe-arena {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.swipe-stack {
+  position: relative;
+  width: min(420px, 92vw);
+  height: 320px;
+  /* Drag is horizontal-physical; keep vertical scroll working on touch. */
+  touch-action: pan-y;
+}
+
+.swipe-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: var(--r-xl);
+  background: var(--elev-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
+  cursor: grab;
+  overflow: hidden;
+}
+
+.swipe-card:active {
+  cursor: grabbing;
+}
+
+.swipe-card .swipe-term {
+  margin: 0;
+  font-size: var(--fs-h3);
+  color: var(--text-main);
+  text-align: center;
+}
+
+.swipe-card .swipe-def {
+  margin: 0;
+  flex: 1;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  color: var(--text-muted);
+  overflow-y: auto;
+}
+
+.swipe-divider {
+  border: none;
+  border-top: 1px dashed var(--hairline-strong);
+  margin: 0;
+}
+
+/* Verdict stamps — PHYSICAL corners (match = physical right drag). */
+.swipe-stamp {
+  position: absolute;
+  top: var(--sp-4);
+  padding: 4px 12px;
+  border-radius: var(--r-sm);
+  font-weight: var(--fw-heavy);
+  font-size: var(--fs-body);
+  pointer-events: none;
+}
+
+.swipe-stamp.match {
+  right: var(--sp-4);
+  color: var(--success);
+  border: 2px solid var(--success);
+  transform: rotate(8deg);
+}
+
+.swipe-stamp.reject {
+  left: var(--sp-4);
+  color: var(--danger);
+  border: 2px solid var(--danger);
+  transform: rotate(-8deg);
+}
+
+.swipe-buttons {
+  display: flex;
+  gap: var(--sp-6);
+  /* Physical order must match the drag directions (✗ left, ✓ right) even
+     though the app is RTL — force LTR flow for this row only. */
+  direction: ltr;
+}
+
+.swipe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-2) var(--sp-5);
+  border-radius: var(--r-pill);
+  font-family: inherit;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  background: var(--elev-2);
+}
+
+.swipe-btn.match {
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+.swipe-btn.reject {
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.swipe-progress {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.swipe-banner {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+}
+
+.swipe-banner.good {
+  color: var(--success);
+  background: var(--success-glow);
+}
+
+.swipe-banner.bad {
+  color: var(--text-main);
+  background: var(--danger-glow);
+}
+
+.swipe-float {
+  position: absolute;
+  top: -8px;
+  inset-inline-end: 12px;
+  color: var(--success);
+  font-weight: var(--fw-heavy);
+  pointer-events: none;
+}
